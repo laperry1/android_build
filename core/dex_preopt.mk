@@ -77,4 +77,5 @@ endif  # TARGET_2ND_ARCH
 endif  # DALVIK_VM_LIB
 else
 $(warning No DALVIK_VM_LIB, disable dexpreopt.)
+WITH_DEXPREOPT := false
 endif  # DALVIK_VM_LIB is defined.

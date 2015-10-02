@@ -105,6 +105,13 @@ ifneq ($(USE_CCACHE),)
       CXX_WRAPPER := $(ccache)
     endif
     ccache =
+    ifeq ($(ANDROID_CCACHE_DIR), $(CCACHE_DIR))
+      ifneq ($(ANDROID_CCACHE_SIZE),)
+        ACCSIZE_RESULT := $(shell $(ccache) -M$(ANDROID_CCACHE_SIZE))
+      endif
+    endif
+    ccache =
+    ACCSIZE_RESULT =
   endif
 endif
 
