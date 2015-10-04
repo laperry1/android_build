@@ -66,7 +66,6 @@ CLANG_CONFIG_UNKNOWN_CFLAGS := \
   -Wno-error=maybe-uninitialized \
   -fno-canonical-system-headers \
   $(NEW_CLANG_UNKNOWN_FLAGS)
-  -fno-canonical-system-headers
 
 # Clang flags for all host rules
 CLANG_CONFIG_HOST_EXTRA_ASFLAGS :=

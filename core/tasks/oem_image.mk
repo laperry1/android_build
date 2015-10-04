@@ -15,7 +15,10 @@
 #
 
 # We build oem.img only if it's asked for.
+skip_oem_image := true
 ifneq ($(filter $(MAKECMDGOALS),oem_image),)
+    skip_oem_image := false
+endif
 
 ifneq ($(BOARD_OEMIMAGE_FILE_SYSTEM_TYPE),)
     skip_oem_image := false
