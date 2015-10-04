@@ -739,7 +739,6 @@ function eat()
             echo "Device Found.."
         fi
     if (adb shell cat /system/build.prop | grep -q "ro.cm.device=$CM_BUILD");
-    if (adb shell getprop ro.cm.device | grep -q "$CM_BUILD");
     then
         # if adbd isn't root we can't write to /cache/recovery/
         adb root
