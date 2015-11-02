@@ -95,7 +95,10 @@ LOCAL_DISABLE_STRICT := \
 	clatd \
 	ip \
 	libc_nomalloc \
-	linker
+	linker \
+	sensors.flounder \
+	libnvvisualizer \
+	libskia
 
 LOCAL_FORCE_DISABLE_STRICT := \
 	libziparchive-host \
