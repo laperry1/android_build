@@ -1,7 +1,7 @@
 ### Define paths
 CLANG_QCOM_CONFIG_arm_TARGET_TOOLCHAIN_PREFIX := $(TARGET_TOOLCHAIN_ROOT)/arm-linux-androideabi/bin
 
-LLVM_PREBUILTS_PATH_QCOM := prebuilts/clang/linux-x86/host/llvm-Snapdragon_LLVM_for_Android_3.7/prebuilt/linux-x86_64/bin
+LLVM_PREBUILTS_PATH_QCOM := prebuilts/clang/linux-x86/host/3.7/bin
 LLVM_PREBUILTS_HEADER_PATH_QCOM := $(LLVM_PREBUILTS_PATH_QCOM)/../lib/clang/3.7.1/include/
 LLVM_PREBUILTS_LIBRARIES_PATH_QCOM := $(LLVM_PREBUILTS_PATH_QCOM)/../lib/clang/3.7.1/lib
 
