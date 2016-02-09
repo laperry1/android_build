@@ -140,30 +140,6 @@ ifdef LOCAL_SDK_VERSION
   endif
 endif
 
-ifeq ($(USE_CLANG_QCOM),true)
-  ifndef LOCAL_IS_HOST_MODULE
-    ifeq ($(LOCAL_MODULE),$(filter $(LOCAL_MODULE),$(CLANG_QCOM_FORCE_COMPILE_MODULES)))
-      LOCAL_CLANG := true
-    endif
-  endif
-endif
-
-# The following LOCAL_ variables will be modified in this file.
-# Because the same LOCAL_ variables may be used to define modules for both 1st arch and 2nd arch,
-# we can't modify them in place.
-my_src_files := $(LOCAL_SRC_FILES)
-my_static_libraries := $(LOCAL_STATIC_LIBRARIES)
-my_whole_static_libraries := $(LOCAL_WHOLE_STATIC_LIBRARIES)
-my_shared_libraries := $(LOCAL_SHARED_LIBRARIES)
-my_cflags := $(LOCAL_CFLAGS)
-my_cppflags := $(LOCAL_CPPFLAGS)
-my_ldflags := $(LOCAL_LDFLAGS)
-my_asflags := $(LOCAL_ASFLAGS)
-my_cc := $(LOCAL_CC)
-my_cxx := $(LOCAL_CXX)
-my_c_includes := $(LOCAL_C_INCLUDES)
-my_generated_sources := $(LOCAL_GENERATED_SOURCES)
-
 # MinGW spits out warnings about -fPIC even for -fpie?!) being ignored because
 # all code is position independent, and then those warnings get promoted to
 # errors.
@@ -279,14 +255,10 @@ my_target_global_cppflags :=
 endif # LOCAL_SDK_VERSION
 
 ifeq ($(my_clang),true)
-  ifeq ($(USE_CLANG_QCOM)$(filter $(LOCAL_MODULE),$(CLANG_QCOM_DONT_USE_MODULES)),true)
-    include $(BUILD_SYSTEM)/clang/clang_qcom_global.mk
-  else
-    my_target_c_includes += $(CLANG_CONFIG_EXTRA_TARGET_C_INCLUDES)
-    my_target_global_cflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)CLANG_TARGET_GLOBAL_CFLAGS)
-    my_target_global_cppflags += $($(LOCAL_2ND_ARCH_VAR_PREFIX)CLANG_TARGET_GLOBAL_CPPFLAGS)
-    my_target_global_ldflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)CLANG_TARGET_GLOBAL_LDFLAGS)
-  endif
+my_target_global_cflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)CLANG_TARGET_GLOBAL_CFLAGS)
+my_target_global_conlyflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)CLANG_TARGET_GLOBAL_CONLYFLAGS)
+my_target_global_cppflags += $($(LOCAL_2ND_ARCH_VAR_PREFIX)CLANG_TARGET_GLOBAL_CPPFLAGS)
+my_target_global_ldflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)CLANG_TARGET_GLOBAL_LDFLAGS)
 else
 my_target_global_cflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_GLOBAL_CFLAGS)
 my_target_global_conlyflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)TARGET_GLOBAL_CONLYFLAGS)
@@ -432,18 +404,9 @@ normal_objects_mode := $(if $(LOCAL_ARM_MODE),$(LOCAL_ARM_MODE),thumb)
 # actually used (although they are usually empty).
 arm_objects_cflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)$(my_prefix)$(arm_objects_mode)_CFLAGS)
 normal_objects_cflags := $($(LOCAL_2ND_ARCH_VAR_PREFIX)$(my_prefix)$(normal_objects_mode)_CFLAGS)
-ifeq ($(strip $(my_clang)),true)
-    ifndef LOCAL_IS_HOST_MODULE
-      ifeq ($(USE_CLANG_QCOM)$(filter $(LOCAL_MODULE),$(CLANG_QCOM_DONT_USE_MODULES)),true)
-        include $(BUILD_SYSTEM)/clang/clang_qcom_objects.mk
-      else
-        arm_objects_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(arm_objects_cflags))
-        normal_objects_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(normal_objects_cflags))
-      endif
-    else
-      arm_objects_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(arm_objects_cflags))
-      normal_objects_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(normal_objects_cflags))
-    endif
+ifeq ($(my_clang),true)
+arm_objects_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(arm_objects_cflags))
+normal_objects_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(normal_objects_cflags))
 endif
 
 else
@@ -1115,21 +1078,20 @@ endif
 ###########################################################
 
 ifeq ($(my_clang),true)
-  ifndef LOCAL_IS_HOST_MODULE
-    ifeq ($(USE_CLANG_QCOM)$(filter $(LOCAL_MODULE),$(CLANG_QCOM_DONT_USE_MODULES)),true)
-        include $(BUILD_SYSTEM)/clang/clang_qcom_local.mk
-    else
-      my_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_cflags))
-      my_cppflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_cppflags))
-      my_asflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_asflags))
-      my_ldflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_ldflags))
-    endif
-  else
-    my_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_cflags))
-    my_cppflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_cppflags))
-    my_asflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_asflags))
-    my_ldflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_ldflags))
-  endif
+my_cflags += $(LOCAL_CLANG_CFLAGS)
+my_conlyflags += $(LOCAL_CLANG_CONLYFLAGS)
+my_cppflags += $(LOCAL_CLANG_CPPFLAGS)
+my_asflags += $(LOCAL_CLANG_ASFLAGS)
+my_ldflags += $(LOCAL_CLANG_LDFLAGS)
+my_cflags += $(LOCAL_CLANG_CFLAGS_$($(my_prefix)$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH)) $(LOCAL_CLANG_CFLAGS_$(my_32_64_bit_suffix))
+my_conlyflags += $(LOCAL_CLANG_CONLYFLAGS_$($(my_prefix)$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH)) $(LOCAL_CLANG_CONLYFLAGS_$(my_32_64_bit_suffix))
+my_cppflags += $(LOCAL_CLANG_CPPFLAGS_$($(my_prefix)$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH)) $(LOCAL_CLANG_CPPFLAGS_$(my_32_64_bit_suffix))
+my_ldflags += $(LOCAL_CLANG_LDFLAGS_$($(my_prefix)$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH)) $(LOCAL_CLANG_LDFLAGS_$(my_32_64_bit_suffix))
+my_asflags += $(LOCAL_CLANG_ASFLAGS_$($(my_prefix)$(LOCAL_2ND_ARCH_VAR_PREFIX)ARCH)) $(LOCAL_CLANG_ASFLAGS_$(my_32_64_bit_suffix))
+my_cflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_cflags))
+my_cppflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_cppflags))
+my_asflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_asflags))
+my_ldflags := $(call $(LOCAL_2ND_ARCH_VAR_PREFIX)convert-to-$(my_host)clang-flags,$(my_ldflags))
 endif
 
 ifeq ($(my_fdo_build), true)
