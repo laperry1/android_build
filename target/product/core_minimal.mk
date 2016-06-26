@@ -75,6 +75,7 @@ PRODUCT_PACKAGES += \
     uiautomator \
     uncrypt \
     voip-common \
+    WebViewGoogle \
     webview \
     wifi-service
 
