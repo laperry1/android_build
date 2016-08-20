@@ -21,7 +21,7 @@ BLUETOOTH := libbluetooth_jni bluetooth.mapsapi bluetooth.default bluetooth.maps
 
 # Disable modules that don't work with DragonTC. Split up by arch.
 DISABLE_DTC_arm :=
-DISABLE_DTC_arm64 :=
+DISABLE_DTC_arm64 := libm libblasV8 libperfprofdcore libperfprofdutils perfprofd libjavacrypto libscrypt_static libcrypto
 
 # Set DISABLE_DTC based on arch
 DISABLE_DTC := \
@@ -67,7 +67,7 @@ endif
 
 # Polly flags for use with Clang
 POLLY := -O3 -mllvm -polly \
-  -mllvm -polly-parallel \
+  -mllvm -polly-parallel -lgomp \
   -mllvm -polly-ast-use-context \
   -mllvm -polly-vectorizer=polly \
   -mllvm -polly-opt-fusion=max \
@@ -88,6 +88,39 @@ endif
 
 # Disable modules that dont work with Polly. Split up by arch.
 DISABLE_POLLY_arm := \
+  libart \
+  libavcodec \
+  libstagefright_soft_aacdec \
+  libhevcdec \
+  libswresample \
+  libmedia_jni \
+  libFFTEm \
+  libaudioflinger \
+  libswscale \
+  libncurses \
+  libopus \
+  libreverb \
+  libmusicbundle \
+  libmpeg2dec \
+  libhevcdec \
+  libstagefright_amrnbdec \
+  libstagefright_aacenc \
+  libaudioutils \
+  libsvoxpico \
+  libicuuc \
+  libinput \
+  libavcenc \
+  libavcdec \
+  libFraunhoferAAC \
+  libpixelflinger \
+  libgsm \
+  libsonic \
+  libvpx \
+  libpdfiumcore \
+  libwebp-decode \
+  libwebp-encode \
+  libjpeg_static \
+  libpng \
   libpng \
   libLLVMCodeGen \
   libLLVMARMCodeGen\
@@ -109,6 +142,39 @@ DISABLE_POLLY_arm := \
   libc_tzcode \
   libv8
 DISABLE_POLLY_arm64 := \
+  libart \
+  libavcodec \
+  libstagefright_soft_aacdec \
+  libhevcdec \
+  libswresample \
+  libmedia_jni \
+  libFFTEm \
+  libaudioflinger \
+  libswscale \
+  libncurses \
+  libopus \
+  libreverb \
+  libmusicbundle \
+  libmpeg2dec \
+  libhevcdec \
+  libstagefright_amrnbdec \
+  libstagefright_aacenc \
+  libaudioutils \
+  libsvoxpico \
+  libicuuc \
+  libinput \
+  libavcenc \
+  libavcdec \
+  libFraunhoferAAC \
+  libpixelflinger \
+  libgsm \
+  libsonic \
+  libvpx \
+  libwebp-decode \
+  libpdfiumcore \
+  libwebp-encode \
+  libjpeg_static \
+  libpng_32 \
   libpng \
   libfuse \
   libLLVMAsmParser \
@@ -155,6 +221,39 @@ ifeq (1,$(words $(filter 3.8 3.9,$(LLVM_PREBUILTS_VERSION))))
 	libv8 \
 	libvixl \
 	libvterm \
+	libart \
+	libavcodec \
+	libstagefright_soft_aacdec \
+	libhevcdec \
+	libswresample \
+	libmedia_jni \
+	libFFTEm \
+	libaudioflinger \
+	libFraunhoferAAC \
+	libaudioutils \
+	libsvoxpico \
+	libmusicbundle \
+	libswscale \
+	libncurses \
+	libopus \
+	libreverb \
+	libmpeg2dec \
+	libhevcdec \
+	libstagefright_amrnbdec \
+	libstagefright_aacenc \
+	libicuuc \
+	libinput \
+	libpixelflinger \
+	libgsm \
+	libsonic \
+	libavcenc \
+	libavcdec \
+	libvpx \
+	libpdfiumcore \
+	libwebp-decode \
+	libwebp-encode \
+	libpng_32 \
+        libjpeg_static \
 	libxml2
 endif
 
