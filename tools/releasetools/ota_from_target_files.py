@@ -794,6 +794,14 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
 
   if block_based:
     script.Print(" ")
+    script.Print("Flashing Magisk...")
+    script.Print(" ")
+    common.ZipWriteStr(output_zip, "magisk/magisk.zip",
+                   ""+input_zip.read("SYSTEM/addon.d/magisk.zip"))
+    script.FlashMagisk()
+    script.Print(" ")
+
+    script.Print(" ")
     script.Print("Flashing Deuteronomy Sound System...")
     script.Print(" ")
     common.ZipWriteStr(output_zip, "viper/viper.zip",
