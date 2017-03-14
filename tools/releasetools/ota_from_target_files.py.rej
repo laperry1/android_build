@@ -1,0 +1,30 @@
+--- tools/releasetools/ota_from_target_files.py
++++ tools/releasetools/ota_from_target_files.py
+@@ -1631,12 +1636,16 @@ def option_handler(o, a):
+       OPTIONS.override_device = a
+     elif o in ("--override_prop"):
+       OPTIONS.override_prop = bool(a.lower() == 'true')
++    elif o in ("-z", "--use_lzma"):
++      OPTIONS.use_lzma = True
++      # Import now, and bomb out if backports.lzma isn't installed
++      from backports import lzma
+     else:
+       return False
+     return True
+ 
+   args = common.ParseOptions(argv, __doc__,
+-                             extra_opts="b:k:i:d:wne:t:a:2o:",
++                             extra_opts="b:k:i:d:wne:t:a:2o:z",
+                              extra_long_opts=[
+                                  "board_config=",
+                                  "package_key=",
+@@ -1658,7 +1667,8 @@ def option_handler(o, a):
+                                  "stash_threshold=",
+                                  "backup=",
+                                  "override_device=",
+-                                 "override_prop="
++                                 "override_prop=",
++                                 "use_lzma"
+                              ], extra_option_handler=option_handler)
+ 
+   if len(args) != 2:
