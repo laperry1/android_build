@@ -37,7 +37,7 @@ endif
 $(combo_2nd_arch_prefix)TARGET_NDK_GCC_VERSION := 4.9
 
 ifeq ($(strip $(TARGET_GCC_VERSION_EXP)),)
-$(combo_2nd_arch_prefix)TARGET_GCC_VERSION := 6.x
+$(combo_2nd_arch_prefix)TARGET_GCC_VERSION := 7.x
 else
 $(combo_2nd_arch_prefix)TARGET_GCC_VERSION := $(TARGET_GCC_VERSION_EXP)
 endif
@@ -52,8 +52,8 @@ include $(BUILD_SYSTEM)/combo/fdo.mk
 
 # You can set TARGET_TOOLS_PREFIX to get gcc from somewhere else
 ifeq ($(strip $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)),)
-$(combo_2nd_arch_prefix)TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linux-androideabi-$($(combo_2nd_arch_prefix)TARGET_GCC_VERSION)
-$(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX := $($(combo_2nd_arch_prefix)TARGET_TOOLCHAIN_ROOT)/bin/arm-linux-androideabi-
+$(combo_2nd_arch_prefix)TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linaro-$($(combo_2nd_arch_prefix)TARGET_GCC_VERSION)
+$(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX := $($(combo_2nd_arch_prefix)TARGET_TOOLCHAIN_ROOT)/bin/arm-linaro-linux-androideabi-
 endif
 
 $(combo_2nd_arch_prefix)TARGET_CC := $($(combo_2nd_arch_prefix)TARGET_TOOLS_PREFIX)gcc

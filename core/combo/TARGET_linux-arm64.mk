@@ -37,7 +37,7 @@ endif
 TARGET_NDK_GCC_VERSION := 4.9
 
 ifeq ($(strip $(TARGET_GCC_VERSION_EXP)),)
-TARGET_GCC_VERSION := 6.x
+TARGET_GCC_VERSION := 7.x
 else
 TARGET_GCC_VERSION := $(TARGET_GCC_VERSION_EXP)
 endif
@@ -52,8 +52,8 @@ include $(BUILD_SYSTEM)/combo/fdo.mk
 
 # You can set TARGET_TOOLS_PREFIX to get gcc from somewhere else
 ifeq ($(strip $(TARGET_TOOLS_PREFIX)),)
-TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_TAG)/aarch64/aarch64-linux-android-$(TARGET_GCC_VERSION)
-TARGET_TOOLS_PREFIX := $(TARGET_TOOLCHAIN_ROOT)/bin/aarch64-linux-android-
+TARGET_TOOLCHAIN_ROOT := prebuilts/gcc/$(HOST_PREBUILT_TAG)/aarch64/aarch64-linaro-$(TARGET_GCC_VERSION)
+TARGET_TOOLS_PREFIX := $(TARGET_TOOLCHAIN_ROOT)/bin/aarch64-linaro-linux-android-
 endif
 
 TARGET_CC := $(TARGET_TOOLS_PREFIX)gcc
