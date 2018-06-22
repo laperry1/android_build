@@ -578,15 +578,6 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
     script.FlashMagisk()
     script.Print(" ")
 
-    script.Print(" ")
-    script.Print("Flashing V4Android...")
-    script.Print(" ")
-    common.ZipWriteStr(output_zip, "viper/viper.zip",
-                   ""+input_zip.read("SYSTEM/addon.d/viper.zip"))
-    script.FlashViper()
-    script.Print("V4Android Flashed...")
-    script.Print(" ")
-
   script.ShowProgress(0.2, 10)
   device_specific.FullOTA_InstallEnd()
 
