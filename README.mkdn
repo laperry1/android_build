@@ -1,0 +1,84 @@
+# crDroid build script #
+
+### Description ###
+
+This bash script is used to build crDroid and upload via FTP.  
+With proper settings, it's also possible to push to crDroid AFH page automatically.
+
+### How to Install
+
+In order to install this, all it's needed to be done is copy build script locally, set it as executable and configure it with built-in wizard.  
+To do so run following commands:
+
+```bash
+# Download the script with curl
+$ curl -LJO https://raw.githubusercontent.com/crdroidandroid/crdroid_build/8.1/build
+# Make script executable
+$ chmod +x build
+# run the script
+$ ./build
+```
+
+### Configuration
+
+We now need to configure build and devices codenames that we want to build for.  
+For that just **./build** and follow the on-screen instructions.
+
+```bash
+$ ./build
+$ Please enter the path where crDroid folder is located (full path ex:/home/<user>/crDroid)
+$ /home/gwolf2u/crDroid
+$ How much RAM can JACK use for compiling? (numeric value ex: 16)
+$ 16
+$ How much space (in GB) can be used to ccache? (numeric value ex: 30)
+$ 30
+$ Copy changelog to script location at end of compilation?
+$ 1 or 2 (Yes/No)
+$ Upload compilation to FTP at end of build?
+$ 1 or 2 (Yes/No)
+$ Enter FTP hostname (ex: uploads.androidfilehost.com):
+$ uploads.androidfilehost.com
+$ Enter FTP username:
+$ gwolf2u
+$ Enter FTP password:
+$ myultrasecurepassword
+```
+
+Now as you just set your configuration, next step would be to add device to build script.  
+Running **./build add** will prompt you to enter your device information.  
+
+```bash
+$ ./build add
+$ Add a new device:
+$ Format: <device codename>,<FTP upload path>
+$ mako,auto/Nexus4/crDroid
+```
+
+**FTP upload path** - ask crDroid staff via our Telegram channel for this path according to your device (this is useful for auto import to AFH).
+
+### Additional stuff (optional and not mandatory)
+
+If you want to run some additional commands before build starts, for example, repopick some unmerged commits, just create a commands.txt file, and add your stuff there.
+This way the build script picks up the files and executes the commands line by line (see commands.txt example).
+
+### Start building
+
+In order to start building, issue the following command
+
+    $ ./build
+
+### Help
+
+Issue **./build help** for a list of helpfull commands
+
+```bash
+This build script is used to be able to build crDroid and upload the builds over FTP
+Usage: ./build [OPTION]
+
+Commands supported:
+add       - adds a device to be built
+remove    - removes a device from build list
+list      - lists all devices that are configured to be built
+clean     - cleans up the configuration
+clear     - clears up all the devices on build list
+```
